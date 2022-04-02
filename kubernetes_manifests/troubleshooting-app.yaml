@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-demo-app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: flask-demo-app
+  replicas: 2 
+  template:
+    metadata:
+      labels:
+        app: flask-demo-app
+    spec:
+      containers:
+      - name: flask-demo-app
+        image: nicc777/demo-flask-app:0.0.1
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        env:
+        - name: DEMO_ENV_VAR_1
+          value: "Set by deployment"
+        - name: DEMO_ENV_VAR_2
+          value: "My super cool app is working!"
+        - name: SOME_OTHER_MESSAGE
+          value: "This environment variable is not defined in the default Dockerfile. It is only defined in the deployment manifest"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-demo-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: flask-demo-app
+  ports:
+    - protocol: TCP
+      port: 8880
+      targetPort: 8080
