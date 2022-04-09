@@ -20,7 +20,7 @@ RUN sh ./aws/install
 
 FROM flask-prod-base
 
-LABEL Description="A demo container for the production hosting of a flask application" Vendor="none" Version="0.0.1"
+LABEL Description="A demo container for the production hosting of a flask application" Vendor="none" Version="0.0.2"
 
 # Envieonment
 ENV DEMO_ENV_VAR_1 "VALUE_01"
@@ -35,7 +35,7 @@ RUN pip3 install dist/*.tar.gz
 
 # Operational Configuration
 EXPOSE 8080
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "--access-logfile", "-", "flask-demo-app.flask-demo-app:app"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "--access-logfile", "-", "flask_demo_app.flask_demo_app:app"]
 
 
 

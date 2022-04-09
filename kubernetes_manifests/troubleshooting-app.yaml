@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: flask-demo-app
-        image: nicc777/demo-flask-app:0.0.1
+        image: nicc777/demo-flask-app:0.0.2
         resources:
           requests:
             memory: "128Mi"
