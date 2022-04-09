@@ -14,6 +14,13 @@
 
 This is a simple Flask demo app intended to be deployed in Kubernetes
 
+I used this demo app in the following blog articles:
+
+* [2022-04-03](https://www.nicc777.com/blog/2022/2022-04-03.html)
+* [2022-04-10](https://www.nicc777.com/blog/2022/2022-04-10.html)
+
+_**Note**_: If any of the links above does not work, it may because thearticle is not yet published. You can also visit the [blog repository](https://github.com/nicc777/nicc777-com-site) to see work in progress.
+
 ## Building
 
 Run:
