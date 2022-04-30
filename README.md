@@ -117,6 +117,8 @@ The command `kubectl get all` should also return the following output:
 No resources found in test namespace.
 ```
 
+_**Note**_: The `kustomization` manifest will create a namespace called `demo`
+
 ### Pod Only Deployment 
 
 This deployment is useful for scenarios where an ingress is not required. Typical use cases include:
