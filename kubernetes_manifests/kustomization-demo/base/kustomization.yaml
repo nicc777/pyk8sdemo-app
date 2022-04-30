@@ -1,0 +1,4 @@
+resources:
+  - flask-demo-app-namespace.yaml
+  - flask-demo-app-deployment.yaml
+  - flask-demo-app-service.yaml

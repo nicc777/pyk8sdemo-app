@@ -1,0 +1,4 @@
+bases:
+  - ../../base
+patchesStrategicMerge:
+  - delete-flask-demo-app-service.yaml
