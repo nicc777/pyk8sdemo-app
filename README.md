@@ -3,9 +3,14 @@
   - [Building](#building)
   - [Pushing the build to a registry](#pushing-the-build-to-a-registry)
   - [Manual Deployment in Kubernetes](#manual-deployment-in-kubernetes)
-    - [Preparing a dedicated test namespace (optional)](#preparing-a-dedicated-test-namespace-optional)
+    - [Preparing a dedicated test namespace (optional, not required when using `kustomization`)](#preparing-a-dedicated-test-namespace-optional-not-required-when-using-kustomization)
     - [Pod Only Deployment](#pod-only-deployment)
+      - [Not using `kustomization`](#not-using-kustomization)
+      - [Using `kustomization`](#using-kustomization)
+      - [Checking the deployment](#checking-the-deployment)
     - [Service With Ingress Deployment](#service-with-ingress-deployment)
+      - [Not using `kustomization`](#not-using-kustomization-1)
+      - [Using `kustomization`](#using-kustomization-1)
     - [Obtaining a Shell from one of the Pods](#obtaining-a-shell-from-one-of-the-pods)
     - [Cleanup](#cleanup)
   - [Deployment with ArgoCD](#deployment-with-argocd)
@@ -82,7 +87,7 @@ docker push $REGISTRY_URL/$APP_TAG\:$VERSION_TAG
 
 The manifests are all located in the `kubernetes_manifests/` directory of this project and commands will be run from within this directory.
 
-### Preparing a dedicated test namespace (optional)
+### Preparing a dedicated test namespace (optional, not required when using `kustomization`)
 
 It is not required, but in some cases it may be useful to conduct tests in a temporary namespace. 
 
@@ -112,12 +117,14 @@ The command `kubectl get all` should also return the following output:
 No resources found in test namespace.
 ```
 
-### Pod Only Deployment
+### Pod Only Deployment 
 
 This deployment is useful for scenarios where an ingress is not required. Typical use cases include:
 
 * Troubleshooting or experimenting with `ConfigMaps`, `Secrets`, `Environment Variables` and other internal configurations in the context of a namespace
 * Outbound networking tests and troubleshooting (basic tools for these have been included in the image)
+
+#### Not using `kustomization`
 
 To deploy the `pod` only manifest, run the following command:
 
@@ -125,13 +132,37 @@ To deploy the `pod` only manifest, run the following command:
 kubectl apply -f troubleshooting-app-pod-only.yaml
 ```
 
+#### Using `kustomization`
+
+To deploy the `pod` only manifest, run the following command:
+
+```shell
+cd kubernetes_manifests/kustomization-demo
+
+kustomize build overlays/pod-only | kubectl apply -f -
+```
+
+#### Checking the deployment
+
 For more info, try running `kubectl get all -o wide` or for maximum information, try running `kubectl get all -o yaml`
 
 ### Service With Ingress Deployment
 
+#### Not using `kustomization`
+
 The steps are the same as for the `Pod Only Deployment` with the only difference being to use the `troubleshooting-app.yaml` manifest file.
 
 _**Note**_: It may take 15 to 20 minutes for the Load Balancer to be fully available and the DNS name set. Once this is done, the simple web app can also be opened by a Web Browser, using the DNS name specified in the manifest.
+
+#### Using `kustomization`
+
+Run the following command:
+
+```shell
+cd kubernetes_manifests/kustomization-demo
+
+kustomize build overlays/full | kubectl apply -f -
+```
 
 ### Obtaining a Shell from one of the Pods
 
